@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Wattpad Sanctuary</title>
+
+  <meta name="description" content="Wattpad Sanctuary adalah komunitas kreatif tempat para penulis, pembaca, dan kreator berkumpul untuk berbagi cerita dan inspirasi.">
+
+  <meta name="application-name" content="Wattpad Sanctuary">
+  <meta name="apple-mobile-web-app-title" content="Wattpad Sanctuary">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Wattpad Sanctuary">
+  <meta property="og:title" content="Wattpad Sanctuary">
+  <meta property="og:description" content="A kingdom beyond reality.">
+  <meta property="og:image" content="/assets/image/pack_icon.png">
+
+  <link rel="icon" type="image/png" href="/assets/image/pack_icon.png">
+  <link rel="shortcut icon" href="/assets/image/pack_icon.png">
+  <link rel="apple-touch-icon" href="/assets/image/pack_icon.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <meta name="theme-color" content="#6D4AFF">
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"Wattpad Sanctuary",
+    "url":"https://wattsanc-com.web.app"
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void: #050508;
+      --deep: #0A0A12;
+      --surface: #0F0F1A;
+      --surface2: #141420;
+      --silver: #C8C8D8;
+      --silver-dim: #7A7A8E;
+      --white: #F0F0F8;
+      --gold: #C9A84C;
+      --gold-dim: #8A6E2E;
+      --glow: #7B6EAE;
+      --border: rgba(200,200,216,0.08);
+      --border-bright: rgba(200,200,216,0.2);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--void);
+      color: var(--silver);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CURSOR */
+    #cur { position:fixed; width:8px; height:8px; background:var(--gold); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .3s,height .3s; }
+    #cur-ring { position:fixed; width:32px; height:32px; border:1px solid var(--gold); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:.4; transition:width .3s,height .3s; }
+
+    /* STARS */
+    #stars-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+    /* NOISE */
+    body::after {
+      content:''; position:fixed; inset:0; z-index:1;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events:none; opacity:.5;
+    }
+
+    /* NAV */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1.4rem 3.5rem;
+      background:linear-gradient(to bottom, rgba(5,5,8,.95), transparent);
+    }
+    .nav-logo {
+      font-family:'Cinzel',serif; font-size:1.1rem; font-weight:700;
+      letter-spacing:.25em; text-transform:uppercase;
+      color:var(--white); text-decoration:none;
+      display:flex; align-items:center; gap:.6rem;
+    }
+    .nav-logo .bfly { font-size:1.3rem; filter:drop-shadow(0 0 6px var(--glow)); }
+    .nav-join {
+      font-size:.65rem; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--gold); border:1px solid var(--gold-dim);
+      padding:.5rem 1.3rem; text-decoration:none; transition:all .35s; position:relative; overflow:hidden;
+    }
+    .nav-join::before {
+      content:''; position:absolute; inset:0; background:var(--gold);
+      transform:scaleX(0); transform-origin:left; transition:transform .35s; z-index:-1;
+    }
+    .nav-join:hover { color:var(--void); }
+    .nav-join:hover::before { transform:scaleX(1); }
+    .nav-admin {
+      display:flex; align-items:center; justify-content:center;
+      width:32px; height:32px; border-radius:50%;
+      border:1px solid var(--border); color:rgba(122,122,142,.35);
+      text-decoration:none; transition:all .3s; margin-left:.3rem;
+    }
+    .nav-admin:hover { border-color:var(--gold); color:var(--gold); }
+
+    /* HERO */
+    .hero {
+      position:relative; z-index:10;
+      min-height:100vh;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding:8rem 2rem 5rem; overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0; z-index:1;
+      background:radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, var(--void) 100%);
+      pointer-events:none;
+    }
+    .hero-glow {
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-55%);
+      width:600px; height:600px;
+      background:radial-gradient(circle, rgba(123,110,174,.18) 0%, transparent 70%);
+      pointer-events:none; z-index:1;
+      animation:pulseGlow 5s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      from { opacity:.6; transform:translate(-50%,-55%) scale(1); }
+      to   { opacity:1;  transform:translate(-50%,-55%) scale(1.12); }
+    }
+
+    .butterfly-svg {
+      position:relative; z-index:2;
+      width:350px; margin-bottom:2.5rem;
+      display:block; object-fit:contain;
+      filter:drop-shadow(0 0 30px rgba(123,110,174,.5)) drop-shadow(0 0 80px rgba(123,110,174,.2));
+      opacity:0; animation:bflyIn 1.8s ease .3s forwards;
+    }
+    @keyframes bflyIn {
+      0%   { opacity:0; transform:translateY(24px) scale(.9); }
+      60%  { opacity:1; }
+      100% { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .butterfly-svg.floating { animation:bflyFloat 6s ease-in-out infinite; }
+    @keyframes bflyFloat {
+      0%,100% { transform:translateY(0) rotate(0deg); }
+      33%      { transform:translateY(-12px) rotate(1.5deg); }
+      66%      { transform:translateY(-5px) rotate(-1deg); }
+    }
+
+    .hero-eyebrow {
+      position:relative; z-index:2;
+      font-size:.65rem; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--gold); margin-bottom:1.2rem;
+      opacity:0; animation:fadeUp .8s ease 1s forwards;
+    }
+    .hero-title {
+      position:relative; z-index:2;
+      font-family:'Cinzel',serif;
+      font-size:clamp(3rem,9vw,7.5rem); font-weight:900;
+      letter-spacing:.12em; text-transform:uppercase; line-height:1;
+      color:var(--white);
+      text-shadow:0 0 60px rgba(123,110,174,.45), 0 0 140px rgba(123,110,174,.15);
+      margin-bottom:.7rem;
+      opacity:0; animation:fadeUp .8s ease 1.2s forwards;
+    }
+    .hero-subtitle {
+      position:relative; z-index:2;
+      font-family:'Cinzel',serif;
+      font-size:clamp(.85rem,1.8vw,1.15rem); font-weight:400;
+      letter-spacing:.3em; text-transform:uppercase;
+      color:var(--silver-dim); margin-bottom:2rem;
+      opacity:0; animation:fadeUp .8s ease 1.4s forwards;
+    }
+    .hero-desc {
+      position:relative; z-index:2;
+      font-family:'Crimson Pro',serif; font-size:1.15rem; font-style:italic;
+      line-height:1.85; color:var(--silver-dim);
+      max-width:520px; margin:0 auto 3rem;
+      opacity:0; animation:fadeUp .8s ease 1.6s forwards;
+    }
+    .hero-actions {
+      position:relative; z-index:2;
+      display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;
+      opacity:0; animation:fadeUp .8s ease 1.8s forwards;
+    }
+    .btn-gold {
+      font-family:'Cinzel',serif; font-size:.65rem; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--void); background:var(--gold);
+      padding:.85rem 2.2rem; text-decoration:none; transition:all .35s;
+    }
+    .btn-gold:hover { background:var(--white); transform:translateY(-2px); box-shadow:0 8px 30px rgba(201,168,76,.35); }
+    .btn-ghost {
+      font-family:'Cinzel',serif; font-size:.65rem; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--white); border:1px solid var(--border-bright);
+      padding:.85rem 2.2rem; text-decoration:none; transition:all .35s;
+    }
+    .btn-ghost:hover { border-color:var(--silver); background:rgba(255,255,255,.04); transform:translateY(-2px); }
+
+    .hero-stats {
+      position:relative; z-index:2;
+      display:flex; gap:3rem; justify-content:center;
+      margin-top:4rem; padding-top:2.5rem;
+      border-top:1px solid var(--border);
+      opacity:0; animation:fadeUp .8s ease 2.1s forwards;
+    }
+    .stat { text-align:center; }
+    .stat-n { font-family:'Cinzel',serif; font-size:2rem; font-weight:700; color:var(--white); line-height:1; }
+    .stat-l { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--silver-dim); margin-top:.4rem; }
+
+    .scroll-hint {
+      position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+      z-index:2; display:flex; flex-direction:column; align-items:center; gap:.5rem;
+      opacity:0; animation:fadeIn 1s ease 2.6s forwards;
+    }
+    .scroll-hint span { font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--silver-dim); }
+    .scroll-line {
+      width:1px; height:38px;
+      background:linear-gradient(to bottom, var(--silver-dim), transparent);
+      animation:scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity:.3; } 50% { opacity:1; }
+    }
+
+    /* DIVIDER */
+    .divider {
+      position:relative; z-index:10;
+      display:flex; align-items:center; gap:1.5rem; padding:0 3.5rem;
+    }
+    .divider-line { flex:1; height:1px; background:var(--border); }
+    .divider-icon { font-size:1rem; color:var(--gold); opacity:.55; }
+
+    /* SECTION BASE */
+    section { position:relative; z-index:10; padding:6rem 3.5rem; }
+    .sec-label {
+      display:inline-flex; align-items:center; gap:.7rem;
+      font-size:.6rem; letter-spacing:.25em; text-transform:uppercase; color:var(--gold);
+      margin-bottom:1rem;
+    }
+    .sec-label::before { content:''; display:block; width:24px; height:1px; background:var(--gold); }
+    .sec-title {
+      font-family:'Cinzel',serif;
+      font-size:clamp(1.6rem,3.5vw,2.8rem); font-weight:700;
+      color:var(--white); line-height:1.2; max-width:560px;
+    }
+    .sec-title em { font-style:italic; color:var(--gold); }
+
+    /* UPDATES */
+    .updates-bg {
+      background:linear-gradient(to bottom, var(--void), var(--deep));
+      border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+    }
+    .updates-layout { display:grid; grid-template-columns:1fr 1.6fr; gap:3rem; margin-top:3rem; }
+    .update-card {
+      background:var(--surface); border:1px solid var(--border);
+      padding:2rem; position:relative; overflow:hidden;
+      transition:transform .35s, border-color .35s, box-shadow .35s;
+    }
+    .update-card::before {
+      content:''; position:absolute; top:0; left:0;
+      width:2px; height:0; background:var(--gold); transition:height .5s;
+    }
+    .update-card:hover { transform:translateY(-4px); border-color:rgba(201,168,76,.25); box-shadow:0 16px 48px rgba(0,0,0,.4); }
+    .update-card:hover::before { height:100%; }
+    .u-tag { font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:.7rem; }
+    .u-title { font-family:'Cinzel',serif; font-size:.95rem; font-weight:600; color:var(--white); line-height:1.4; margin-bottom:.6rem; }
+    .u-text { font-family:'Crimson Pro',serif; font-size:.95rem; line-height:1.7; color:var(--silver-dim); }
+    .u-date { margin-top:1.2rem; font-size:.62rem; letter-spacing:.1em; color:rgba(122,122,142,.45); }
+    .updates-list { display:flex; flex-direction:column; gap:1rem; }
+
+    /* QUOTE */
+    .quote-sec {
+      text-align:center; padding:7rem 3.5rem;
+      background:var(--surface);
+      border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+      position:relative; overflow:hidden;
+    }
+    .quote-sec::before {
+      content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      width:500px; height:500px;
+      background:radial-gradient(circle, rgba(123,110,174,.08) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .q-bfly { font-size:2.5rem; display:block; margin-bottom:1.8rem; filter:drop-shadow(0 0 12px var(--glow)); opacity:.5; animation:bflyFloat 5s ease-in-out infinite; }
+    #q-text {
+      font-family:'Crimson Pro',serif;
+      font-size:clamp(1.35rem,3vw,2.1rem); font-style:italic; font-weight:300;
+      color:var(--white); line-height:1.65; max-width:680px; margin:0 auto 1.2rem;
+      transition:opacity .4s;
+    }
+    #q-author { font-size:.65rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:2.5rem; transition:opacity .4s; }
+    .q-btn {
+      display:inline-flex; align-items:center; gap:.6rem;
+      font-family:'Cinzel',serif; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--silver-dim); background:none; border:1px solid var(--border);
+      padding:.6rem 1.6rem; cursor:none; transition:all .3s;
+    }
+    .q-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .q-btn svg { transition:transform .6s; }
+    .q-btn:hover svg { transform:rotate(180deg); }
+
+    /* MEMBERS */
+    .members-bg { background:var(--deep); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .members-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+    .member-card {
+      background:var(--surface); border:1px solid var(--border);
+      padding:2rem; display:flex; gap:1.2rem; align-items:flex-start;
+      transition:transform .35s, border-color .35s, box-shadow .35s;
+      position:relative; overflow:hidden;
+    }
+    .member-card::before {
+      content:''; position:absolute; bottom:0; left:0; right:0;
+      height:1px; background:linear-gradient(to right, transparent, var(--gold), transparent);
+      transform:scaleX(0); transition:transform .5s;
+    }
+    .member-card:hover { transform:translateY(-4px); border-color:rgba(201,168,76,.2); box-shadow:0 12px 40px rgba(0,0,0,.5); }
+    .member-card:hover::before { transform:scaleX(1); }
+    .m-avatar {
+      width:54px; height:54px; border-radius:50%; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Cinzel',serif; font-size:1.2rem; font-weight:700; color:var(--void);
+      position:relative; box-shadow:0 0 20px rgba(201,168,76,.3);
+    }
+    .m-badge{
+  position:absolute;
+  right:-2px;
+  bottom:-2px;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,.25);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.8rem;
+}
+    .m-name { font-family:'Cinzel',serif; font-size:.92rem; font-weight:600; color:var(--white); }
+    .m-role { font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-top:.25rem; }
+    .m-bio { font-family:'Crimson Pro',serif; font-size:.9rem; line-height:1.65; color:var(--silver-dim); margin-top:.6rem; }
+
+    /* FOOTER */
+    /* SUGGESTION BOX */
+    .suggest-section{position:relative;z-index:10;max-width:600px;margin:5rem auto 5rem;padding:0 1.5rem}
+    .suggest-card{background:var(--surface);border:1px solid var(--border);padding:2.5rem;position:relative;overflow:hidden;text-align:center}
+    .suggest-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+    .suggest-eyebrow{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem}
+    .suggest-title{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+    .suggest-desc{font-family:'Crimson Pro',serif;font-style:italic;color:var(--silver-dim);font-size:.95rem;margin-bottom:1.5rem;line-height:1.7}
+    .suggest-textarea{width:100%;background:var(--deep);border:1px solid var(--border);color:var(--silver);font-family:'Raleway',sans-serif;font-size:.88rem;font-weight:300;padding:.8rem 1rem;outline:none;resize:vertical;min-height:100px;transition:border .2s}
+    .suggest-textarea:focus{border-color:var(--gold-dim)}
+    .suggest-textarea::placeholder{color:var(--silver-dim);opacity:.5}
+    .suggest-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.8rem;flex-wrap:wrap;gap:.6rem}
+    .suggest-note{font-size:.65rem;color:var(--silver-dim);font-family:'Crimson Pro',serif;font-style:italic}
+    .suggest-btn{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--void);background:var(--gold);border:none;padding:.65rem 1.6rem;cursor:none;transition:all .3s}
+    .suggest-btn:hover:not(:disabled){background:var(--white)}
+    .suggest-btn:disabled{opacity:.5}
+    .suggest-login{font-size:.75rem;font-family:'Crimson Pro',serif;font-style:italic;color:var(--silver-dim)}
+    .suggest-login a{color:var(--gold);text-decoration:none}
+
+    footer {
+      position:relative; z-index:10;
+      background:var(--void); border-top:1px solid var(--border);
+      padding:3rem 3.5rem;
+      display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap;
+    }
+    .f-logo {
+      font-family:'Cinzel',serif; font-size:1.15rem; font-weight:700;
+      letter-spacing:.2em; text-transform:uppercase; color:var(--white);
+      display:flex; align-items:center; gap:.5rem;
+    }
+    .f-logo .bfly { color:var(--gold); filter:drop-shadow(0 0 6px var(--glow)); }
+    .f-center { display:flex; flex-direction:column; align-items:center; gap:1rem; }
+    .f-socials { display:flex; gap:.7rem; }
+    .f-social {
+      width:36px; height:36px; border-radius:50%;
+      border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--silver-dim); text-decoration:none; transition:all .3s;
+    }
+    .f-social:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-3px); box-shadow:0 6px 20px rgba(201,168,76,.2); }
+    .f-copy { font-size:.63rem; letter-spacing:.1em; color:rgba(122,122,142,.4); text-align:center; }
+    .f-links { display:flex; gap:1.5rem; list-style:none; }
+    .f-links a { font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--silver-dim); text-decoration:none; transition:color .3s; }
+    .f-links a:hover { color:var(--gold); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
+    .reveal.vis { opacity:1; transform:none; }
+
+    /* MOBILE */
+    /* ── TABLET ── */
+    @media (max-width:900px) {
+      nav { padding:1.1rem 1.5rem; }
+      section { padding:3.5rem 1.5rem; }
+      .updates-layout { grid-template-columns:1fr; }
+      .members-grid { grid-template-columns:1fr 1fr; }
+      footer { flex-direction:column; align-items:center; text-align:center; gap:1.5rem; }
+      .f-center { width:100%; }
+      .hero-stats { gap:1.5rem; }
+      .hero-glow { width:380px; height:380px; }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width:600px) {
+      /* NAV */
+      nav { padding:1rem 1.2rem; }
+      .nav-logo { font-size:.85rem; letter-spacing:.15em; }
+      #nav-right { gap:.4rem; }
+      .nav-join { font-size:.58rem; padding:.4rem .8rem; letter-spacing:.1em; }
+      .nav-uname { display:none; }
+
+      /* HERO */
+      .hero { padding:6.5rem 1.2rem 3.5rem; }
+      .butterfly-svg { width:240px; margin-bottom:1.8rem; }
+      .hero-title { font-size:clamp(2.4rem,12vw,4rem); letter-spacing:.06em; }
+      .hero-subtitle { font-size:.75rem; letter-spacing:.18em; }
+      .hero-desc { font-size:1rem; margin-bottom:2rem; }
+      .btn-gold, .btn-ghost { font-size:.6rem; padding:.75rem 1.6rem; letter-spacing:.12em; }
+      .hero-stats { gap:1rem; margin-top:2.5rem; padding-top:1.8rem; flex-wrap:wrap; justify-content:center; }
+      .stat-n { font-size:1.6rem; }
+      .stat-l { font-size:.55rem; }
+      .scroll-hint { display:none; }
+
+      /* DIVIDER */
+      .divider { padding:0 1.2rem; }
+
+      /* SECTIONS */
+      section { padding:3rem 1.2rem; }
+      .sec-title { font-size:1.4rem; }
+
+      /* UPDATES */
+      .updates-layout { grid-template-columns:1fr; gap:1rem; }
+      .updates-list { gap:.8rem; }
+      .u-title { font-size:.88rem; }
+      .u-text { font-size:.85rem; }
+
+      /* QUOTE */
+      .quote-sec { padding:4rem 1.2rem; }
+      #q-text { font-size:clamp(1.1rem,5vw,1.6rem); }
+      .q-bfly { font-size:2rem; }
+
+      /* MEMBERS */
+      .members-grid { grid-template-columns:1fr; gap:1rem; }
+      .member-card { padding:1.4rem; }
+      .m-name { font-size:.85rem; }
+      .m-bio { font-size:.82rem; }
+
+      /* EVENTS */
+      #events-container > div { grid-template-columns:1fr !important; }
+      .ev-card { padding:1.2rem; }
+
+      /* FOOTER */
+      footer { padding:2rem 1.2rem; flex-direction:column; align-items:center; text-align:center; gap:1.5rem; }
+      .f-logo { font-size:1rem; }
+      .f-links { gap:1rem; flex-wrap:wrap; justify-content:center; }
+      .f-copy { font-size:.6rem; }
+      .f-socials { gap:.5rem; }
+    }
+
+    /* ── VERY SMALL (≤380px) ── */
+    @media (max-width:380px) {
+      .hero-actions { flex-direction:column; align-items:center; }
+      .btn-gold, .btn-ghost { width:100%; text-align:center; justify-content:center; }
+    }
+    .q-link{display:inline-block;margin-top:1.2rem;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--silver-dim);text-decoration:none;border:1px solid var(--border);padding:.4rem 1rem;transition:all .3s}
+    .q-link:hover{border-color:var(--gold);color:var(--gold)}
+    .nav-avatar{width:30px;height:30px;border-radius:50%;border:1px solid var(--gold-dim);object-fit:cover;cursor:none;vertical-align:middle}
+    .nav-uname{font-size:.68rem;color:var(--silver-dim);max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav{
+      position:fixed;bottom:0;left:0;right:0;z-index:300;
+      background:rgba(10,10,18,.92);
+      backdrop-filter:blur(16px);
+      border-top:1px solid var(--border);
+      display:flex;align-items:stretch;
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+    .bn-item{
+      flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.2rem;padding:.6rem .3rem;text-decoration:none;
+      color:var(--silver-dim);font-family:'Cinzel',serif;font-size:.48rem;letter-spacing:.08em;
+      text-transform:uppercase;transition:color .2s;border:none;background:none;cursor:none;
+    }
+    .bn-item:hover{color:var(--silver)}
+    .bn-item.active{color:var(--gold)}
+    .bn-item svg{width:20px;height:20px;transition:transform .2s}
+    .bn-item.active svg{transform:scale(1.1)}
+    /* social feed button */
+    .bn-social{
+      flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.2rem;padding:.4rem .3rem;text-decoration:none;border:none;background:none;cursor:none;
+      position:relative;
+    }
+    .bn-social-icon{
+      width:40px;height:40px;border-radius:50%;
+      background:var(--gold);display:flex;align-items:center;justify-content:center;
+      transition:background .2s,transform .2s;
+    }
+    .bn-social:hover .bn-social-icon{background:var(--white);transform:scale(1.08)}
+    .bn-social-icon svg{width:18px;height:18px;color:var(--void)}
+
+    /* ── FLOATING NAV ── */
+    .float-nav{
+      position:fixed;right:1.2rem;bottom:5.5rem;z-index:400;
+      display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;
+    }
+    /* main toggle button */
+    .fn-toggle{
+      width:44px;height:44px;border-radius:50%;
+      background:var(--surface2);border:1px solid var(--border-bright);
+      display:flex;align-items:center;justify-content:center;
+      cursor:none;transition:all .25s;color:var(--silver-dim);
+      box-shadow:0 4px 20px rgba(0,0,0,.5);
+    }
+    .fn-toggle:hover,.fn-toggle.open{border-color:var(--gold-dim);color:var(--gold)}
+    .fn-toggle.open{background:rgba(201,168,76,.08)}
+    .fn-toggle svg{transition:transform .35s}
+    .fn-toggle.open svg{transform:rotate(45deg)}
+    /* items */
+    .fn-items{
+      display:flex;flex-direction:column;align-items:flex-end;gap:.45rem;
+      overflow:hidden;
+    }
+    .fn-item{
+      display:flex;align-items:center;gap:.55rem;text-decoration:none;
+      opacity:0;transform:translateX(16px) scale(.9);
+      transition:opacity .25s,transform .25s,border-color .2s,color .2s;
+      pointer-events:none;
+    }
+    .fn-item.visible{opacity:1;transform:translateX(0) scale(1);pointer-events:auto}
+    .fn-label{
+      font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--silver-dim);background:rgba(10,10,18,.88);backdrop-filter:blur(8px);
+      border:1px solid var(--border);padding:.3rem .7rem;
+      transition:color .2s,border-color .2s;white-space:nowrap;
+    }
+    .fn-item:hover .fn-label{color:var(--gold);border-color:var(--gold-dim)}
+    .fn-icon{
+      width:38px;height:38px;border-radius:50%;
+      background:var(--surface2);border:1px solid var(--border-bright);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1rem;flex-shrink:0;transition:border-color .2s,box-shadow .2s;
+    }
+    .fn-item:hover .fn-icon{border-color:var(--gold-dim);box-shadow:0 0 12px rgba(201,168,76,.2)}
+    /* stagger delays when opening */
+    .fn-item:nth-child(4){transition-delay:.04s}
+    .fn-item:nth-child(3){transition-delay:.08s}
+    .fn-item:nth-child(2){transition-delay:.12s}
+    .fn-item:nth-child(1){transition-delay:.16s}
+
+    /* push footer above bottom nav */
+    footer{margin-bottom:60px}
+    @media(max-width:600px){footer{margin-bottom:56px}}
+    .ev-card{background:var(--surface);border:1px solid var(--border);padding:1.4rem;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+    .ev-card::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--gold);transition:height .4s}
+    .ev-card:hover{transform:translateY(-2px);border-color:rgba(201,168,76,.2)}
+    .ev-card:hover::before{height:100%}
+    .ev-status{font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid;display:inline-block;margin-bottom:.7rem}
+    .ev-status.aktif{color:#4CAF82;border-color:rgba(76,175,130,.3);background:rgba(76,175,130,.06)}
+    .ev-status.segera{color:var(--gold);border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.06)}
+    .ev-status.selesai{color:var(--silver-dim);border-color:var(--border)}
+    .ev-title{font-family:'Cinzel',serif;font-size:.92rem;font-weight:600;color:var(--white);margin-bottom:.4rem}
+    .ev-desc{font-size:.82rem;line-height:1.65;color:var(--silver-dim);font-family:'Crimson Pro',serif}
+    .ev-date{font-size:.62rem;color:rgba(122,122,142,.45);margin-top:.6rem}
+  </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#"><span class="bfly">🦋</span> Sanctuary</a>
+  <div id="nav-right" style="display:flex;align-items:center;gap:.7rem">
+    <a href="login.html" class="nav-join">Masuk</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <img id="b-hero" class="butterfly-svg" src="./assets/images/logo.png" alt="Wattpad Sanctuary Logo"/>
+
+  <p class="hero-eyebrow">Komunitas Wattpad</p>
+  <h1 class="hero-title">Sanctuary</h1>
+  <p class="hero-subtitle">Where Stories Find Their Wings</p>
+  <p class="hero-desc">
+    Lebih dari sekadar grup — kami adalah tempat berlindung bagi para penulis, pembaca, dan jiwa-jiwa yang percaya bahwa kata-kata bisa mengubah dunia.
+  </p>
+  <div class="hero-actions">
+    <a href="#members" class="btn-gold">Jelajahi Komunitas</a>
+    <a href="#updates" class="btn-ghost">Berita Terbaru</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">200+</div><div class="stat-l">Member Aktif</div></div>
+    <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Cerita & Karya</div></div>
+    <div class="stat"><div class="stat-n">1</div><div class="stat-l">Komunitas Solid</div></div>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-icon">📢</div><div class="divider-line"></div></div>
+
+<!-- UPDATES -->
+<section class="updates-bg" id="updates">
+  <div class="sec-label">Terbaru</div>
+  <h2 class="sec-title">Berita &amp; <em>Update</em> Grup</h2>
+  <div id="updates-container" class="updates-layout reveal">
+    <div style="grid-column:1/-1;padding:2rem 0;font-family:'Crimson Pro',serif;font-style:italic;color:var(--silver-dim)">Tidak ada berita terkini.</div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-icon">🎉</div><div class="divider-line"></div></div>
+
+<!-- EVENTS AKTIF -->
+<section class="updates-bg" id="events" style="padding:3rem 3.5rem">
+  <div class="sec-label">Kegiatan</div>
+  <h2 class="sec-title" style="margin-bottom:1.5rem">Event <em>Aktif</em></h2>
+  <div id="events-container">
+    <div style="padding:1rem 0;font-family:'Crimson Pro',serif;font-style:italic;color:var(--silver-dim);font-size:.95rem">Tidak ada event yang aktif.</div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-icon">💬</div><div class="divider-line"></div></div>
+
+<!-- QUOTE -->
+<section class="quote-sec" id="quotes">
+  <span class="q-bfly">🦋</span>
+  <p id="q-text" style="opacity:.3;font-size:1rem">Memuat quote...</p>
+  <p id="q-author"></p>
+  <a href="pages/quotes.html" class="q-link">Lihat Semua Quotes →</a>
+</section>
+
+<div class="divider"><div class="divider-line"></div><div class="divider-icon">🌟</div><div class="divider-line"></div></div>
+
+<!-- MEMBERS -->
+<section class="members-bg" id="members">
+  <div class="sec-label">Dewan Penjaga</div>
+  <h2 class="sec-title">⚊ <em>Dewan Penjaga Suaka</em> ⚊</h2>
+  <p style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.95rem;color:var(--silver-dim);margin:1rem 0 2.5rem;line-height:1.8">Jajaran para pemangku takhta — mereka yang menjaga, membangun, dan menghidupkan Sanctuary.</p>
+  <div class="members-grid reveal">
+
+    <!-- Nana — Sri Adhipati -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#E0C36A,#8A6E2E);">
+        N<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">Nana</div>
+        <div class="m-role">⚜️ Sri Adhipati — Founder &amp; Owner</div>
+        <div class="m-bio">Sang Penguasa Tertinggi. Dari kehendaknya Sanctuary berdiri — ia yang meletakkan batu pertama kerajaan ini dan menjaga api-nya tetap menyala.</div>
+      </div>
+    </div>
+
+    <!-- Zena — Sri Rakshaka -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#A8D8FF,#2E5A8A);">
+        Z<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">Zena</div>
+        <div class="m-role">⚜️ Sri Rakshaka — Admin Keamanan</div>
+        <div class="m-bio">Sang Penjaga Tangguh. Benteng pertahanan Sanctuary yang memastikan setiap sudut istana tetap aman dan terlindungi dari ancaman.</div>
+      </div>
+    </div>
+
+    <!-- El — Sri Sarathi -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#FFD6A8,#8A5E2E);">
+        E<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">El</div>
+        <div class="m-role">⚜️ Sri Sarathi — Admin Controller Bot</div>
+        <div class="m-bio">Sang Pawang &amp; Pengendali. Ia yang memegang tali kendali seluruh otomasi kerajaan agar roda Sanctuary berputar tanpa henti.</div>
+      </div>
+    </div>
+
+    <!-- Nawa — Sri Sthapati -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#8E7BEF,#4B357A);">
+        N<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">Nawa</div>
+        <div class="m-role">⚜️ Sri Sthapati — Perancang Web GC</div>
+        <div class="m-bio">Sang Arsitek Ruang. Perancang dan pembangun Sanctuary — setiap sudut ruang digital ini lahir dari tangan dan visinya.</div>
+      </div>
+    </div>
+
+    <!-- Cindy — Sri Kalakara -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#C08BFF,#5B3B8A);">
+        C<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">Cindy</div>
+        <div class="m-role">⚜️ Sri Kalakara — Admin Editor</div>
+        <div class="m-bio">Sang Pengrajin Keindahan. Ia mengolah video dan tulisan menjadi karya yang memperindah wajah Sanctuary di mata dunia.</div>
+      </div>
+    </div>
+
+    <!-- Zhaka — Sri Kalakara -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#7EE7FF,#2E4D8A);">
+        Z<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">Zhaka</div>
+        <div class="m-role">⚜️ Sri Kalakara — Admin Editor</div>
+        <div class="m-bio">Sang Pengrajin Keindahan. Bersama Cindy, ia menyempurnakan setiap karya visual dan tulisan yang mewakili jiwa Sanctuary.</div>
+      </div>
+    </div>
+
+    <!-- Sena — Sri Utsawa -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#E57BC6,#8A3D72);">
+        S<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">Sena</div>
+        <div class="m-role">⚜️ Sri Utsawa — Admin Event</div>
+        <div class="m-bio">Sang Penggerak Perayaan. Penyelenggara festival dan kegiatan yang menghadirkan semangat dan kehidupan di seluruh penjuru Sanctuary.</div>
+      </div>
+    </div>
+
+    <!-- Rara — Sri Wimarsa -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#62D7A0,#2D7B5C);">
+        R<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">Rara</div>
+        <div class="m-role">⚜️ Sri Wimarsa — Admin Feedback Cerita</div>
+        <div class="m-bio">Sang Pengulas Bijak. Pendengar setia suara para penghuni yang dengan teliti membaca dan menyampaikan setiap masukan kepada istana.</div>
+      </div>
+    </div>
+    
+        <!-- Ara — Sri Sastra -->
+    <div class="member-card">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#62D7A0,#2D7B5C);">
+        R<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name">Ara</div>
+        <div class="m-role">⚜️ Sri Sastra — Admin Materi Kepenulisan</div>
+        <div class="m-bio">Sang Penjaga Kitab. Penjaga pengetahuan kepenulisan Sanctuary — mengumpulkan, merawat, dan membagikan ilmu kepada seluruh penghuni.</div>
+      </div>
+    </div>
+   
+    <!-- Sri Wartha — Kosong -->
+    <div class="member-card" style="opacity:.5">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#3D3060,#1a1530);border:1px dashed rgba(201,168,76,.3)">
+        ?<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name" style="color:var(--silver-dim)">—</div>
+        <div class="m-role">⚜️ Sri Wartha — Admin Siaran &amp; Sosmed</div>
+        <div class="m-bio" style="font-style:italic">Sang Pembawa Berita. Takhta ini menanti sang utusan yang akan menyebarkan kabar Sanctuary ke seluruh penjuru dunia.</div>
+      </div>
+    </div>
+
+    <!-- Sri Duta — Kosong -->
+    <div class="member-card" style="opacity:.5">
+      <div class="m-avatar" style="background:linear-gradient(135deg,#3D3060,#1a1530);border:1px dashed rgba(201,168,76,.3)">
+        ?<span class="m-badge">⚜️</span>
+      </div>
+      <div>
+        <div class="m-name" style="color:var(--silver-dim)">—</div>
+        <div class="m-role">⚜️ Sri Duta — Admin Perwakilan Partner</div>
+        <div class="m-bio" style="font-style:italic">Sang Utusan Agung. Takhta ini menanti sang diplomat yang akan membangun jembatan antara Sanctuary dan dunia luar.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SUGGESTION BOX -->
+<section class="suggest-section reveal">
+  <div class="suggest-card">
+    <div class="suggest-eyebrow">Sanctuary</div>
+    <div class="suggest-title">Kotak Saran</div>
+    <div class="suggest-desc">Ada ide, masukan, atau keluhan? Tulis di sini — admin Sanctuary akan membacanya.</div>
+    <div id="suggest-content">
+      <textarea class="suggest-textarea" id="suggest-input" placeholder="Tulis saranmu di sini..." maxlength="500"></textarea>
+      <div class="suggest-footer">
+        <span class="suggest-note" id="suggest-charcount">0 / 500</span>
+        <button class="suggest-btn" id="suggest-btn" onclick="submitSuggestion()">✉ Kirim Saran</button>
+      </div>
+    </div>
+    <div id="suggest-login" class="suggest-login" style="display:none">
+      <a href="login.html">Masuk</a> dulu untuk mengirim saran.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo"><span class="bfly">🦋</span> Sanctuary</div>
+  <div class="f-center">
+    <div class="f-socials">
+      <a href="https://www.instagram.com/wattpad_sanctuary?igsh=emlpczJobzV5ZjJ1" class="f-social" title="Instagram">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>
+        </svg>
+      </a>
+      <a href="#" class="f-social" title="TikTok">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/>
+        </svg>
+      </a>
+      <a href="#" class="f-social" title="X">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+      <a href="#" class="f-social" title="WhatsApp">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+      <a href="#" class="f-social" title="Wattpad">
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="m 2.7104044,11.376996 c -0.53683,-0.1975 -1.10466,-0.9271 -1.36465,-1.7535997 -0.27434,-0.8721 -0.34505,-1.4799 -0.34573,-2.9719 -5.4999e-4,-1.2009 0.0157,-1.4596 0.12235,-1.9462 0.28721,-1.3106 0.82555,-1.8823 1.71569,-1.8221 0.63735,0.043 0.97184,0.3157 1.16472,0.9494 0.088,0.2893 0.11844,1.7153 0.0433,2.0291 -0.05,0.2086 -0.0361,0.1917 0.44289,-0.5375 0.87312,-1.3293 1.75928,-2.2889 2.40774,-2.6073 0.4537,-0.2228 1.01855,-0.2302 1.39647,-0.018 0.5313,0.2978 0.78499,1.004 0.73884,2.0566 l -0.0282,0.6429 0.35277,-0.4403 c 0.8002596,-0.9988 1.8089096,-1.8604 2.4124896,-2.0609 0.57132,-0.1898 1.04784,-0.018 1.19239,0.429 0.11753,0.3637 -0.006,0.6554 -0.76359,1.8088 -0.77905,1.1854 -0.97944,1.5371 -1.78997,3.1417 -0.6686196,1.3236 -0.8912996,1.6318 -1.3705296,1.8972997 -0.26552,0.147 -0.36999,0.1711 -0.74185,0.1711 -0.3675,10e-5 -0.47326,-0.024 -0.70084,-0.1575 -0.31462,-0.185 -0.52114,-0.4159997 -0.71654,-0.8015997 -0.18132,-0.3578 -0.25402,-0.7044 -0.30315,-1.4452 l -0.0396,-0.5964 -0.22183,0.4013 c -0.12201,0.2208 -0.41371,0.814 -0.64821,1.3181 -0.23451,0.5042 -0.51933,1.0696997 -0.63295,1.2567997 -0.25411,0.4183 -0.65423,0.8257 -0.97092,0.9886 -0.3143,0.1617 -1.00233,0.1964 -1.35112,0.068 z"/>
+        </svg>
+      </a>
+    </div>
+    <div class="f-copy">© Sanctuary Project 2026 — Komunitas Wattpad</div>
+  </div>
+  <ul class="f-links">
+    <li><a href="#updates">Berita</a></li>
+    <li><a href="#features">Fitur</a></li>
+    <li><a href="#members">Member</a></li>
+    <li><a href="social.html">Social</a></li>
+    <li><a href="admin.html" style="color:rgba(122,122,142,.3)">Admin</a></li>
+  </ul>
+</footer>
+
+<script>
+  /* STARFIELD */
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 300; i++) {
+      stars.push({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 1.3 + .2, o: Math.random() * .7 + .1,
+        tw: Math.random() * Math.PI * 2
+      });
+    }
+  }
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.tw += .007;
+      const op = s.o * (.55 + .45 * Math.sin(s.tw));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200,200,230,${op})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  resize(); initStars(); drawStars();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  /* CURSOR */
+  const cur = document.getElementById('cur');
+  const ring = document.getElementById('cur-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function animCur() {
+    cur.style.left = mx+'px'; cur.style.top = my+'px';
+    rx += (mx-rx)*.14; ry += (my-ry)*.14;
+    ring.style.left = rx+'px'; ring.style.top = ry+'px';
+    requestAnimationFrame(animCur);
+  })();
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => { cur.style.width='14px'; cur.style.height='14px'; ring.style.width='50px'; ring.style.height='50px'; ring.style.opacity='.22'; });
+    el.addEventListener('mouseleave', () => { cur.style.width='8px'; cur.style.height='8px'; ring.style.width='32px'; ring.style.height='32px'; ring.style.opacity='.4'; });
+  });
+
+  /* BUTTERFLY entrance → float */
+  const bh = document.getElementById('b-hero');
+  bh.addEventListener('animationend', () => {
+    bh.style.opacity = '1';
+    bh.style.animation = 'bflyFloat 6s ease-in-out infinite';
+  }, { once: true });
+
+  /* SCROLL REVEAL */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: .1 });
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+</script>
+
+<script type="module">
+  import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { initBadge, setCache, renderBadge, injectBadgeCSS } from './assets/badge.js';
+  import { getFirestore, collection, getDocs, addDoc, query, orderBy, limit, doc, getDoc, where, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const cfg = {
+    apiKey:"AIzaSyDtf0T2xlsXH8WWp5aLGEsr66WQ0bN8ESA",
+    authDomain:"wattsanc-com.firebaseapp.com",
+    projectId:"wattsanc-com",
+    storageBucket:"wattsanc-com.firebasestorage.app",
+    messagingSenderId:"548448853180",
+    appId:"1:548448853180:web:58023620d0589a5a5ec4b9"
+  };
+  const app = getApps().length ? getApps()[0] : initializeApp(cfg);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+  initBadge(db);
+  injectBadgeCSS();
+
+  function escH(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function formatDate(d) {
+    return d.toLocaleDateString('id-ID', {day:'2-digit', month:'long', year:'numeric'});
+  }
+
+  // ── QUOTES ──
+  let _allQuotes = [], _qi = 0;
+
+  function msUntilNextSlot() {
+    const now = new Date();
+    const nextHour = (Math.floor(now.getHours() / 3) + 1) * 3;
+    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate(), nextHour, 0, 0, 0);
+    return Math.max(next - now, 1000);
+  }
+
+  function showQuote(idx, animate=true) {
+    const t = document.getElementById('q-text');
+    const a = document.getElementById('q-author');
+    if (!_allQuotes.length || !t || !a) return;
+    const q = _allQuotes[idx];
+    if (!q) return;
+    if (animate) { t.style.opacity='0'; a.style.opacity='0'; }
+    setTimeout(() => {
+      t.textContent = '\u201c' + q.quote + '\u201d';
+      a.textContent = '\u2014 ' + q.author + (q.source ? ' \u00b7 ' + q.source : '');
+      t.style.opacity = '1'; a.style.opacity = '1';
+    }, animate ? 350 : 0);
+  }
+
+  function pickRandom(exclude) {
+    if (_allQuotes.length <= 1) return 0;
+    let next = exclude;
+    while (next === exclude) next = Math.floor(Math.random() * _allQuotes.length);
+    return next;
+  }
+
+  function scheduleQuoteRefresh() {
+    setTimeout(() => {
+      _qi = pickRandom(_qi);
+      showQuote(_qi, true);
+      scheduleQuoteRefresh();
+    }, msUntilNextSlot());
+  }
+
+  async function loadQuotes() {
+    try {
+      const snap = await getDocs(query(collection(db,'quotes'), orderBy('createdAt','desc')));
+      _allQuotes = snap.empty
+        ? [{quote:'Setiap cerita dimulai dengan satu kalimat berani.', author:'Anonim', source:''}]
+        : snap.docs.map(d => d.data());
+      _qi = pickRandom(-1);
+      showQuote(_qi, false);
+      scheduleQuoteRefresh();
+    } catch(e) {
+      console.error('loadQuotes:', e);
+      _allQuotes = [{quote:'Setiap cerita dimulai dengan satu kalimat berani.', author:'Anonim', source:''}];
+      _qi = 0;
+      showQuote(0, false);
+      scheduleQuoteRefresh();
+    }
+  }
+
+  // ── DYNAMIC NAV ──
+  onAuthStateChanged(auth, async user => {
+    const nr = document.getElementById('nav-right');
+    if (!nr) return;
+    if (!user) {
+      nr.innerHTML = `<a href="login.html" class="nav-join">Masuk</a>`;
+      return;
+    }
+    const snap = await getDoc(doc(db,'users',user.uid));
+    const data  = snap.exists() ? snap.data() : {};
+    const role  = data.role || 'member';
+    setCache(user.uid, role, data.adminType || null);
+    const name  = data.displayName || user.displayName || 'Member';
+    const first = name.split(' ')[0];
+
+    const useGoogle = data.useGooglePhoto !== false && !!user.photoURL;
+    const photo = useGoogle ? user.photoURL : null;
+    const color = data.avatarColor || '#3D3060';
+
+    const avatarHTML = photo
+      ? `<img src="${photo}" class="nav-avatar${role==='admin'?' nav-avatar--staff':''}" alt="${escH(first)}"/>`
+      : `<div class="nav-avatar${role&&role!=='member'?' nav-avatar--staff':''}" style="background:${color};display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.75rem;font-weight:700;color:#fff;letter-spacing:.05em">${first[0].toUpperCase()}</div>`;
+
+    nr.innerHTML = `
+      ${role==='admin'?`<a href="admin.html" style="font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold-dim);padding:.3rem .6rem">Admin</a>`:''}
+      <a href="inbox.html" id="nav-inbox-btn" title="Inbox" style="position:relative;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--border);color:var(--silver-dim);text-decoration:none;font-size:.9rem;transition:all .3s;border-radius:2px" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--silver-dim)'">📬<span id="nav-inbox-badge" style="display:none;position:absolute;top:-5px;right:-5px;background:#E07070;color:#fff;font-size:.5rem;min-width:14px;height:14px;border-radius:7px;align-items:center;justify-content:center;padding:0 2px;font-family:'Cinzel',serif"></span></a>
+      <a href="profile.html" style="display:flex;align-items:center;gap:.5rem;text-decoration:none">
+        <span class="nav-uname${role==='admin'?' nav-uname--staff':''}">${renderBadge(data.adminType||null)} ${escH(first)}</span>
+        ${avatarHTML}
+      </a>`;
+
+    // watch unread badge
+    onSnapshot(query(collection(db,'messages'), where('toUid','==',user.uid), where('read','==',false)), snap => {
+      const badge = document.getElementById('nav-inbox-badge');
+      if (!badge) return;
+      const count = snap.size;
+      badge.textContent = count > 9 ? '9+' : count;
+      badge.style.display = count > 0 ? 'flex' : 'none';
+    }, () => {});
+  });
+
+  // ── DYNAMIC ANNOUNCEMENTS ──
+  async function loadAnnouncements() {
+    const container = document.getElementById('updates-container');
+    try {
+      const snap = await getDocs(query(
+        collection(db, 'announcements'),
+        orderBy('createdAt', 'desc'),
+        limit(5)
+      ));
+      if (snap.empty) {
+        container.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--silver-dim)">
+            <div style="font-size:2rem;opacity:.3;margin-bottom:.8rem">📭</div>
+            <p style="font-family:'Crimson Pro',serif;font-style:italic">Belum ada berita terbaru.</p>
+          </div>`;
+        return;
+      }
+      const docs = snap.docs;
+      const pinned = docs.filter(d => d.data().pinned);
+      const featured = pinned.length ? pinned[0] : docs[0];
+      const fd = featured.data();
+      const fDate = fd.createdAt?.toDate() ? formatDate(fd.createdAt.toDate()) : '';
+      let html = `
+        <div class="update-card">
+          <div class="u-tag">${fd.pinned ? '📌 Pinned' : escH(fd.tag||'📢 Pengumuman')}</div>
+          <div class="u-title">${escH(fd.title)}</div>
+          <div class="u-text">${escH(fd.content)}</div>
+          ${fDate ? `<div class="u-date">${fDate}</div>` : ''}
+        </div>`;
+      const remaining = docs.filter(d => d.id !== featured.id).slice(0, 3);
+      if (remaining.length) {
+        html += `<div class="updates-list">`;
+        remaining.forEach(doc => {
+          const d = doc.data();
+          const ts = d.createdAt?.toDate() ? formatDate(d.createdAt.toDate()) : '';
+          html += `
+            <div class="update-card">
+              <div class="u-tag">${escH(d.tag||'📢 Pengumuman')}</div>
+              <div class="u-title">${escH(d.title)}</div>
+              <div class="u-text">${escH(d.content?.substring(0,140))}${d.content?.length>140?'...':''}</div>
+              ${ts ? `<div class="u-date">${ts}</div>` : ''}
+            </div>`;
+        });
+        html += `</div>`;
+      }
+      container.innerHTML = html;
+    } catch(e) {
+      container.innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--silver-dim)">
+          <p style="font-family:'Crimson Pro',serif;font-style:italic">Gagal memuat berita.</p>
+        </div>`;
+      console.error(e);
+    }
+  }
+
+  // ── DYNAMIC EVENTS ──
+  async function loadEvents() {
+    const ec = document.getElementById('events-container');
+    if (!ec) return;
+    try {
+      const snap = await getDocs(query(collection(db,'events'), orderBy('createdAt','desc'), limit(6)));
+      const active = snap.docs.filter(d => (d.data().status||'').toLowerCase() !== 'selesai');
+      if (!active.length) {
+        ec.innerHTML = `<div style="padding:1rem 0;font-family:'Crimson Pro',serif;font-style:italic;color:var(--silver-dim);font-size:.95rem">Tidak ada event aktif saat ini.</div>`;
+        return;
+      }
+      let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem">';
+      active.forEach(d => {
+        const e = d.data();
+        const sc = (e.status||'aktif').toLowerCase();
+        const dt = e.startDate?`📅 ${e.startDate}${e.endDate?' → '+e.endDate:''}`:'';
+        html += `<div class="ev-card">
+          <div class="ev-status ${sc}">${escH(e.status||'Aktif')}</div>
+          <div class="ev-title">${escH(e.title)}</div>
+          <div class="ev-desc">${escH((e.description||'').substring(0,120))}${(e.description||'').length>120?'...':''}</div>
+          ${dt?`<div class="ev-date">${dt}</div>`:''}
+        </div>`;
+      });
+      html += '</div>';
+      ec.innerHTML = html;
+    } catch(e) {
+      ec.innerHTML = `<div style="color:var(--silver-dim);font-size:.85rem">Gagal memuat event.</div>`;
+    }
+  }
+
+  loadAnnouncements();
+  loadEvents();
+  loadQuotes();
+
+  // ── SUGGESTION BOX ──
+  let _suggestUser = null;
+
+  onAuthStateChanged(auth, user => {
+    _suggestUser = user;
+    const loginNote = document.getElementById('suggest-login');
+    const content   = document.getElementById('suggest-content');
+    if (!loginNote || !content) return;
+    if (user) {
+      loginNote.style.display = 'none';
+      content.style.display   = 'block';
+    } else {
+      loginNote.style.display = 'block';
+      content.style.display   = 'none';
+    }
+  });
+
+  // Char counter
+  const suggestInput = document.getElementById('suggest-input');
+  if (suggestInput) {
+    suggestInput.addEventListener('input', () => {
+      const count = document.getElementById('suggest-charcount');
+      if (count) count.textContent = `${suggestInput.value.length} / 500`;
+    });
+  }
+
+  window.submitSuggestion = async function() {
+    if (!_suggestUser) return;
+    const msg = document.getElementById('suggest-input')?.value.trim();
+    if (!msg) return;
+    const btn = document.getElementById('suggest-btn');
+    btn.disabled = true;
+    btn.textContent = 'Mengirim...';
+    try {
+      const userSnap = await getDoc(doc(db, 'users', _suggestUser.uid));
+      const udata    = userSnap.exists() ? userSnap.data() : {};
+      const name     = udata.displayName || _suggestUser.displayName || 'Anonim';
+      const username = udata.username || _suggestUser.email || '';
+      await addDoc(collection(db, 'suggestions'), {
+        message: msg,
+        uid: _suggestUser.uid,
+        name, username,
+        createdAt: serverTimestamp()
+      });
+      // Show success state
+      document.getElementById('suggest-content').innerHTML = `
+        <div style="padding:1.5rem 0;font-family:'Crimson Pro',serif;font-style:italic;color:var(--success);font-size:1rem">
+          ✅ Saran terkirim! Terima kasih sudah meluangkan waktu. 🦋
+        </div>`;
+    } catch(e) {
+      btn.disabled = false;
+      btn.textContent = '✉ Kirim Saran';
+      console.error(e);
+    }
+  };
+</script>
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <a class="bn-item active" href="/index.html" title="Beranda">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Beranda
+  </a>
+  <a class="bn-item" href="/social.html" title="Social">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Social
+  </a>
+  <a class="bn-social" href="/social.html" title="Buat Post">
+    <div class="bn-social-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>
+  </a>
+  <a class="bn-item" href="/inbox.html" title="Inbox">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 17H2a3 3 0 003-3V9a7 7 0 0114 0v5a3 3 0 003 3zm-8.27 4a2 2 0 01-3.46 0"/></svg>
+    Inbox
+  </a>
+  <a class="bn-item" href="/profile.html" title="Profil">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profil
+  </a>
+</div>
+
+<!-- FLOATING NAV -->
+<div class="float-nav" id="float-nav">
+  <div class="fn-items" id="fn-items">
+    <a class="fn-item" href="/pages/quotes.html">
+      <span class="fn-label">Quotes</span>
+      <div class="fn-icon">✍️</div>
+    </a>
+    <a class="fn-item" href="/pages/menfess.html">
+      <span class="fn-label">Menfess</span>
+      <div class="fn-icon">💌</div>
+    </a>
+    <a class="fn-item" href="/mini-event.html">
+      <span class="fn-label">Mini Event</span>
+      <div class="fn-icon">🎪</div>
+    </a>
+    <a class="fn-item" href="/games.html">
+      <span class="fn-label">Game</span>
+      <div class="fn-icon">🎮</div>
+    </a>
+  </div>
+  <button class="fn-toggle" id="fn-toggle" onclick="toggleFloatNav()" title="Menu Cepat">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+</div>
+
+<script>
+  // Floating nav toggle
+  let fnOpen = false;
+  window.toggleFloatNav = function() {
+    fnOpen = !fnOpen;
+    const btn = document.getElementById('fn-toggle');
+    const items = document.querySelectorAll('.fn-item');
+    btn.classList.toggle('open', fnOpen);
+    items.forEach(el => el.classList.toggle('visible', fnOpen));
+  };
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (fnOpen && !document.getElementById('float-nav').contains(e.target)) {
+      fnOpen = false;
+      document.getElementById('fn-toggle').classList.remove('open');
+      document.querySelectorAll('.fn-item').forEach(el => el.classList.remove('visible'));
+    }
+  });
+</script>
+
+</body>
